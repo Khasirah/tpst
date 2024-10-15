@@ -21,7 +21,7 @@ export const listSurat: Surat[] = [
     noResi: "",
     kontak: "",
     petugasTpst: "237643283",
-    createdDate: new Date("2024-10-11")
+    createdDate: new Date("2024-10-12")
   },
   {
     id: "12342",
@@ -33,7 +33,7 @@ export const listSurat: Surat[] = [
     noResi: "",
     kontak: "",
     petugasTpst: "237643283",
-    createdDate: new Date("2024-10-11")
+    createdDate: new Date("2024-10-9")
   },
   {
     id: "12342",
@@ -45,7 +45,7 @@ export const listSurat: Surat[] = [
     noResi: "",
     kontak: "",
     petugasTpst: "237643283",
-    createdDate: new Date("2024-10-11")
+    createdDate: new Date("2024-10-8")
   },
   {
     id: "12342",
@@ -57,7 +57,7 @@ export const listSurat: Surat[] = [
     noResi: "",
     kontak: "",
     petugasTpst: "237643283",
-    createdDate: new Date("2024-10-11")
+    createdDate: new Date("2024-10-7")
   },
   {
     id: "12342",

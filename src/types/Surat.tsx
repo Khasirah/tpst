@@ -1,4 +1,4 @@
-type Surat = {
+export type Surat = {
   id: string
   nomorSurat: string
   pengirim: string

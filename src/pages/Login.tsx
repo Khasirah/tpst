@@ -10,8 +10,6 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
 import {ExclamationTriangleIcon, ReloadIcon} from "@radix-ui/react-icons";
 import {LoginField, loginSchema} from "@/types/LoginSchema.tsx";
 
-
-
 export default function Login() {
   const {
     register,
