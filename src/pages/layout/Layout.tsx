@@ -1,11 +1,8 @@
 import Header from "@/components/Header.tsx";
 import LeftNav from "@/components/LeftNav.tsx";
-import {LayoutProps} from "@/types/Props.ts";
+import {Outlet} from "react-router-dom";
 
-export default function Layout(
-  {
-    children
-  }: LayoutProps ) {
+export default function Layout() {
   return (
     <div className={"grid grid-cols-5 h-screen"}>
       <div className={"h-full border-r"}>
@@ -14,8 +11,7 @@ export default function Layout(
       <div className={"col-span-4"}>
         <Header/>
         <div className={"px-4 pt-4"}>
-          {/* todo: main content */}
-          {children}
+          <Outlet/>
         </div>
       </div>
     </div>

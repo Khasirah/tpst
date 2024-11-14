@@ -46,12 +46,17 @@ export const columns: ColumnDef<Surat>[] = [
     cell: ({row}) => {
       const surat = row.original
 
+      async function onClickHandler() {
+        const pdf = await generateTandaTerima(surat)
+        pdf.open()
+      }
+
       return (
         <div className={"flex flex-row gap-1"}>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Button onClick={generateTandaTerima} variant="outline" size="icon" asChild>
+                <Button onClick={onClickHandler} variant="outline" size="icon" asChild>
                   <PrinterIcon className={"h-5"}/>
                 </Button>
               </TooltipTrigger>

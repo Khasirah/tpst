@@ -2,17 +2,11 @@ import {Surat} from "@/types/Surat.tsx";
 import {createPdf} from "pdfmake/build/pdfmake";
 import * as v from "pdfmake/build/vfs_fonts"
 
-type data = {
-  surat: Surat
-  detailPetugasTpst: {
-    nip: string,
-    nama: string,
-    bidang: string
-  }
-}
-
-export default function generateTandaTerima(data: data) {
+export default async function generateTandaTerima(surat: Surat) {
   const docDefinition = {
+    info: {
+      title: "Tanda Terima Surat",
+    },
     pageSize: "A4",
     content: [
       {
@@ -75,11 +69,21 @@ export default function generateTandaTerima(data: data) {
       {
         margin: [0, 30, 0, 0],
         table: {
-          widths: [],
+          widths: ["*","*","*"],
+          headerRows: 1,
           body: [
             // header
-            []
+            [
+              {text: "NOMOR SURAT", style: ["text12", "fontBold","alignCenter"]},
+              {text: "PENGIRIM", style: ["text12", "fontBold", "alignCenter"]},
+              {text: "PENRIHAL", style: ["text12", "fontBold", "alignCenter"]}
+            ],
             // end header
+            [
+              {text: surat.nomorSurat, style: ["alignCenter"]},
+              {text: surat.pengirim, style: ["alignCenter"]},
+              surat.perihal
+            ]
           ]
         }
       }
@@ -107,7 +111,7 @@ export default function generateTandaTerima(data: data) {
   }
 
   // noinspection TypeScriptValidateTypes
-  const pdf = createPdf(
+  return createPdf(
     docDefinition,
     undefined, {
       Roboto: {
@@ -124,6 +128,5 @@ export default function generateTandaTerima(data: data) {
       },
     },
     v.pdfMake.vfs
-  )
-  pdf.open()
+  );
 }

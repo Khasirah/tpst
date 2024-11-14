@@ -8,8 +8,21 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {Avatar, AvatarFallback} from "@/components/ui/avatar.tsx";
+import {useNavigate} from "react-router-dom";
+import {logout} from "@/api/Auth.tsx";
+import {getToken} from "@/utils/Helper.tsx";
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await logout(getToken())
+    navigate("/login", {replace: true})
+  }
+
+  async function handleProfile() {
+  }
+
   return (
     <div className={"h-14 border-b px-4 flex justify-end"}>
       <div className={"flex gap-2 items-center"}>
@@ -33,8 +46,12 @@ export default function Header() {
                 <p className={"text-xs"}>Seksi Dukungan Teknis Komputer</p>
               </div>
               <DropdownMenuSeparator/>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleProfile}
+              >Profile</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleLogout}
+              >Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

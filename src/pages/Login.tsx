@@ -9,6 +9,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
 import {ExclamationTriangleIcon, ReloadIcon} from "@radix-ui/react-icons";
 import {LoginField, loginSchema} from "@/types/LoginSchema.tsx";
+import {login} from "@/api/Auth.tsx";
+import {useNavigate} from "react-router-dom";
 
 export default function Login() {
   const {
@@ -20,20 +22,26 @@ export default function Login() {
   } = useForm<LoginField>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      nip9: "",
+      idUser: "",
       password: ""
     }
   })
+  const navigate = useNavigate();
 
-  async function onSubmit(data: LoginField) {
-    // todo : post to api
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setError("root", {
-      message: "login gagal, silahkan pastikan nip 9 dan password benar"
-    })
-    console.log(data)
+  function onSubmit(e, data: LoginField) {
+
+    login(data)
+      .then(() => {
+        navigate("/", {replace: true})
+      })
+      .catch((reason) => {
+        setError("root", {
+          message: reason
+        })
+      })
+
     reset({
-      nip9: "",
+      idUser: "",
       password: ""
     }, {
       keepErrors: true
@@ -65,9 +73,9 @@ export default function Login() {
                   id="nip"
                   name={"nip"}
                   placeholder="NIP 9 SIKKA"
-                  {...register("nip9")}
+                  {...register("idUser")}
                 />
-                {errors.nip9 && <p className={"text-red-500 text-xs"}>{errors.nip9.message}</p>}
+                {errors.idUser && <p className={"text-red-500 text-xs"}>{errors.idUser.message}</p>}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">Password</Label>

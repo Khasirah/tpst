@@ -1,3 +1,5 @@
+import {Surat} from "@/types/Surat.tsx";
+
 export const listSurat: Surat[] = [
   {
     id: "12342",

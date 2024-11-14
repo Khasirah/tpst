@@ -1,11 +1,9 @@
 import {buttonVariants} from "@/components/ui/button.tsx";
-import {useState} from "react";
-import {ListPages} from "@/types/ListPages.tsx";
 import {cn} from "@/lib/utils.ts";
 import {ArchiveIcon, DashboardIcon, GearIcon, InputIcon, ListBulletIcon} from "@radix-ui/react-icons";
+import {NavLink} from "react-router-dom";
 
 export default function LeftNav() {
-  const [page, setPage] = useState(ListPages.dashboard)
 
   return (
     <div>
@@ -15,56 +13,56 @@ export default function LeftNav() {
         </h1>
       </div>
       <div className={"w-full flex flex-col px-4 pt-4 gap-4"}>
-        <a
-          href="/dashboard"
-          className={
+        <NavLink
+          to="/"
+          className={({isActive}) =>
             cn(buttonVariants({
               size: "default",
-              variant: page === ListPages.dashboard ? "default" : "ghost"
+              variant: isActive ? "default" : "ghost"
             }), "w-full h-12")
           }>
           <DashboardIcon className={"mr-2"}/>Dashboard
-        </a>
-        <a
-          href="/inputSurat"
-          className={
+        </NavLink>
+        <NavLink
+          to="inputSurat"
+          className={({isActive}) =>
             cn(buttonVariants({
               size: "default",
-              variant: page === ListPages.inputSurat ? "default" : "ghost"
+              variant: isActive ? "default" : "ghost"
             }), "w-full h-12")
           }>
           <InputIcon className={"mr-2"}/>Input Surat
-        </a>
-        <a
-          href="/TandaTerima"
-          className={
+        </NavLink>
+        <NavLink
+          to="tandaTerima"
+          className={({isActive}) =>
             cn(buttonVariants({
               size: "default",
-              variant: page === ListPages.tandaTerima ? "default" : "ghost"
+              variant: isActive ? "default" : "ghost"
             }), "w-full h-12")
           }>
           <ListBulletIcon className={"mr-2"}/>Tanda Terima
-        </a>
-        <a
-          href="/registerSurat"
-          className={
+        </NavLink>
+        <NavLink
+          to="registerSurat"
+          className={({isActive}) =>
             cn(buttonVariants({
               size: "default",
-              variant: page === ListPages.registerSurat ? "default" : "ghost"
+              variant: isActive ? "default" : "ghost"
             }), "w-full h-12")
           }>
           <ArchiveIcon className={"mr-2"}/>Register Surat
-        </a>
-        <a
-          href="/settings"
-          className={
+        </NavLink>
+        <NavLink
+          to="settings"
+          className={({isActive}) =>
             cn(buttonVariants({
               size: "default",
-              variant: page === ListPages.settings ? "default" : "ghost"
+              variant: isActive ? "default" : "ghost"
             }), "w-full h-12")
           }>
           <GearIcon className={"mr-2"}/>Settings
-        </a>
+        </NavLink>
       </div>
     </div>
   )
