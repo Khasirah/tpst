@@ -1,6 +1,7 @@
 import Header from "@/components/Header.tsx";
 import LeftNav from "@/components/LeftNav.tsx";
 import {Outlet} from "react-router-dom";
+import {Toaster} from "@/components/ui/toaster.tsx";
 
 export default function Layout() {
   return (
@@ -12,6 +13,7 @@ export default function Layout() {
         <Header/>
         <div className={"px-4 pt-4"}>
           <Outlet/>
+          <Toaster/>
         </div>
       </div>
     </div>

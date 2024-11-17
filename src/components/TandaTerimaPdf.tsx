@@ -1,8 +1,13 @@
-import {Surat} from "@/types/Surat.tsx";
 import {createPdf} from "pdfmake/build/pdfmake";
 import * as v from "pdfmake/build/vfs_fonts"
+import {SuratResponse} from "@/model/response/SuratResponse.tsx";
+import {getDayName} from "@/model/DaysName.tsx";
+import {getMonthName} from "@/model/MonthName.tsx";
 
-export default async function generateTandaTerima(surat: Surat) {
+export default async function generateTandaTerima(surat: SuratResponse) {
+  const dateNow = new Date()
+  const dayName = getDayName(dateNow.getDay())
+  const monthName = getMonthName(dateNow.getMonth())
   const docDefinition = {
     info: {
       title: "Tanda Terima Surat",
@@ -69,43 +74,138 @@ export default async function generateTandaTerima(surat: Surat) {
       {
         margin: [0, 30, 0, 0],
         table: {
-          widths: ["*","*","*"],
+          widths: ["*", "*", "*"],
           headerRows: 1,
           body: [
             // header
             [
-              {text: "NOMOR SURAT", style: ["text12", "fontBold","alignCenter"]},
+              {text: "NOMOR SURAT", style: ["text12", "fontBold", "alignCenter"]},
               {text: "PENGIRIM", style: ["text12", "fontBold", "alignCenter"]},
-              {text: "PENRIHAL", style: ["text12", "fontBold", "alignCenter"]}
+              {text: "PERIHAL", style: ["text12", "fontBold", "alignCenter"]}
             ],
             // end header
             [
               {text: surat.nomorSurat, style: ["alignCenter"]},
-              {text: surat.pengirim, style: ["alignCenter"]},
+              {text: surat.namaPengirim, style: ["alignCenter"]},
               surat.perihal
             ]
           ]
         }
-      }
+      },
+      // signature
+      {
+        margin: [0, 70, 0, 0],
+        text: `${dayName}, ${dateNow.getDate()} ${monthName} ${dateNow.getFullYear()}`,
+        style: ["alignRight"],
+      },
+      {
+        margin: [0, 5, 0, 0],
+        text: "Petugas Penerima Surat",
+        style: ["alignRight"]
+      },
+      {
+        margin: [0, 70, 0, 20],
+        text: surat.namaPetugasTpst,
+        style: ["alignRight"]
+      },
+      {
+        canvas: [
+          {
+            type: 'line',
+            x1: 1, y1: 10,
+            x2: 510, y2: 10,
+            lineWidth: 3,
+            dash: {length: 10}
+          }
+        ]
+      },
+      {
+        margin: [0, 20, 0, 0],
+        text: [
+          "BUKTI SERAH TERIMA SURAT\n",
+          "KANTOR WILAYAH DJP JAKARTA PUSAT"
+        ],
+        style: ["text14", "fontBold", "alignCenter"]
+      },
+      {
+        margin: [0, 30, 0, 0],
+        table: {
+          widths: ["*", "*", "*"],
+          headerRows: 1,
+          body: [
+            // header
+            [
+              {text: "NOMOR SURAT", style: ["text12", "fontBold", "alignCenter"]},
+              {text: "PENGIRIM", style: ["text12", "fontBold", "alignCenter"]},
+              {text: "PERIHAL", style: ["text12", "fontBold", "alignCenter"]}
+            ],
+            // end header
+            [
+              {text: surat.nomorSurat, style: ["alignCenter"]},
+              {text: surat.namaPengirim, style: ["alignCenter"]},
+              surat.perihal
+            ]
+          ]
+        }
+      },
+      // signature
+      {
+        margin: [0, 50, 0, 0],
+        text: `${dayName}, ${dateNow.getDate()} ${monthName} ${dateNow.getFullYear()}`,
+        style: ["alignRight"],
+      },
+      {
+        margin: [0, 5, 0, 0],
+        columns: [
+          {
+            text: "Pengirim"
+          },
+          {
+            text: "Petugas Penerima Surat",
+            style: ["alignRight"]
+          }
+        ]
+      },
+      {
+        margin: [0, 70, 0, 20],
+        columns: [
+          {
+            text: surat.namaPengirim
+          },
+          {
+            text: surat.namaPetugasTpst,
+            style: ["alignRight"]
+          }
+        ]
+      },
     ],
     images: {
       kemenkeuHitamPutih: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkriULBq9w590AMkmuFW0T6SuFTB9mFz_PZQ&s"
-    },
+    }
+    ,
     styles: {
       text14: {
         fontSize: 14
-      },
+      }
+      ,
       text12: {
         fontSize: 12
-      },
+      }
+      ,
       text9: {
         fontSize: 9
-      },
+      }
+      ,
       fontBold: {
         bold: true
-      },
+      }
+      ,
       alignCenter: {
         alignment: "center"
+      }
+      ,
+      alignRight: {
+        alignment: "right"
       }
     }
   }

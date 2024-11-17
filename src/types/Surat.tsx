@@ -8,5 +8,6 @@ export type Surat = {
   noResi: string
   kontak: string
   petugasTpst: string
-  createdDate: Date
+  createdDate: Date,
+  updatedDate: string
 }

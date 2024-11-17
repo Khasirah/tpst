@@ -2,10 +2,11 @@ import {ColumnDef} from "@tanstack/react-table";
 import {Button} from "@/components/ui/button.tsx";
 import {ArrowUpDownIcon, PrinterIcon} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
-import {Surat} from "@/types/Surat.tsx";
 import generateTandaTerima from "@/components/TandaTerimaPdf.tsx";
+import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
+import {getSuratById} from "@/api/Surat.tsx";
 
-export const columns: ColumnDef<Surat>[] = [
+export const columns: ColumnDef<ForListSuratResponse>[] = [
   {
     accessorKey: "nomorSurat",
     header: "Nomor Surat"
@@ -15,15 +16,15 @@ export const columns: ColumnDef<Surat>[] = [
     header: "Perihal"
   },
   {
-    accessorKey: "pengirim",
+    accessorKey: "namaPengirim",
     header: "Pengirim"
   },
   {
-    accessorKey: "petugasTpst",
+    accessorKey: "namaPetugasTpst",
     header: "Petugas"
   },
   {
-    accessorKey: "createdDate",
+    accessorKey: "tanggalTerima",
     header: ({column}) => {
       return (
         <Button
@@ -36,7 +37,7 @@ export const columns: ColumnDef<Surat>[] = [
       )
     },
     cell: ({row}) => {
-      const dateValue = new Date(row.getValue("createdDate").toString())
+      const dateValue = new Date(row.getValue("tanggalTerima").toString())
       return `${dateValue.toLocaleDateString()}`
     }
   },
@@ -44,9 +45,10 @@ export const columns: ColumnDef<Surat>[] = [
     id: "actions",
     header: "Aksi",
     cell: ({row}) => {
-      const surat = row.original
+      const idSurat = row.original.idSurat
 
       async function onClickHandler() {
+        const surat = await getSuratById(idSurat)
         const pdf = await generateTandaTerima(surat)
         pdf.open()
       }

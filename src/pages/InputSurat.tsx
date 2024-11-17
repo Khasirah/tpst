@@ -2,70 +2,96 @@
 
 import TitlePage from "@/components/TitlePage.tsx";
 import {Input} from "@/components/ui/input.tsx";
-import * as React from "react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {CalendarIcon, CaretSortIcon, CheckIcon, PaperPlaneIcon, TrashIcon} from "@radix-ui/react-icons";
+import {CaretSortIcon, CheckIcon, PaperPlaneIcon, TrashIcon} from "@radix-ui/react-icons";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.tsx";
 import {cn} from "@/lib/utils.ts";
-import {Calendar} from "@/components/ui/calendar.tsx";
-import {format} from "date-fns";
 import {Separator} from "@/components/ui/separator.tsx";
 import {
   useForm,
-  UseFormRegisterReturn,
   UseFormReturn
 } from "react-hook-form";
 import {InputSuratField, inputSuratSchema} from "@/types/InputSuratSchema.tsx";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-
-const listEkspedisi = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-] as const
+import {useEffect, useState} from "react";
+import {Bagian} from "@/model/Bagian.tsx";
+import {Ekspedisi} from "@/model/Ekspedisi.tsx";
+import {getBagianAndEkspedisi} from "@/api/InputSurat.tsx";
+import {Loading} from "@/components/Loading.tsx";
+import {createSurat} from "@/api/Surat.tsx";
+import {CreateSuratRequest} from "@/model/request/CreateSuratRequest.tsx";
+import {useToast} from "@/hooks/use-toast.ts";
 
 export default function InputSurat() {
-  const id: string = "SRT-1"
-  const petugasTpst: string = "123456789"
-  const createdDate: Date = new Date(Date.now())
   const inputSuratForm: UseFormReturn<InputSuratField> = useForm<InputSuratField>({
     resolver: zodResolver(inputSuratSchema),
     defaultValues: {
-      id: id,
       nomorSurat: "",
       perihal: "",
       pengirim: "",
-      petugasTpst: petugasTpst,
-      createdDate: createdDate
+      noResi: "",
+      kontak: ""
     }
   })
-  const fileRef: UseFormRegisterReturn<string> = inputSuratForm.register("namaBerkas")
+  const fileRef = inputSuratForm.register("berkas")
+  const [bidangList, setBidangList] = useState<Bagian[]>(null)
+  const [ekspedisiList, setEkspedisiList] = useState<Ekspedisi[]>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const {toast} = useToast();
 
   function onSubmit(data: InputSuratField): void {
-    console.log(data)
+    const request: CreateSuratRequest = {
+      nomorSurat: data.nomorSurat,
+      namaPengirim: data.pengirim,
+      perihal: data.perihal,
+      idEkspedisi: data.ekspedisi,
+      nomorSeriEkspedisi: data.noResi ? data.noResi : "",
+      kontakPengirim: data.kontak ? data.kontak : "",
+      idTujuanBagian: data.bidang
+    }
+    let berkas = null;
+    if (data.berkas) {
+      berkas = data.berkas[0]
+    }
+
+    setIsLoading(true)
+
+    createSurat(request, berkas)
+      .then((data) => {
+        toast({
+          description: data.data
+        })
+      })
+      .catch(e => {
+        toast({
+          variant: "destructive",
+          description: e
+        })
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+
     inputSuratForm.reset()
   }
 
-  return (
+  useEffect(() => {
+    getBagianAndEkspedisi()
+      .then((data) => {
+        setBidangList(data.bagianList)
+        setEkspedisiList(data.ekspedisiList)
+      })
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }, [])
+
+  return isLoading ?
+    <Loading/>
+    : (
     <div className={"flex flex-col gap-3"}>
       <TitlePage title={"Input Surat"}/>
       <Separator className={"mb-4"}/>
@@ -119,9 +145,9 @@ export default function InputSurat() {
                             )}
                           >
                             {field.value
-                              ? listEkspedisi.find(
-                                (bidang) => bidang.value === field.value
-                              )?.label
+                              ? bidangList.find(
+                                (bidang) => bidang.id === field.value
+                              )?.namaBagian
                               : "pilih bidang"}
                             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                           </Button>
@@ -136,19 +162,19 @@ export default function InputSurat() {
                           <CommandList>
                             <CommandEmpty>bidang yang dicari tidak ditemukan.</CommandEmpty>
                             <CommandGroup>
-                              {listEkspedisi.map((bidang) => (
+                              {bidangList.map((bidang) => (
                                 <CommandItem
-                                  value={bidang.label}
-                                  key={bidang.value}
+                                  value={bidang.id}
+                                  key={bidang.id}
                                   onSelect={() => {
-                                    inputSuratForm.setValue("bidang", bidang.value)
+                                    inputSuratForm.setValue("bidang", bidang.id)
                                   }}
                                 >
-                                  {bidang.label}
+                                  {bidang.namaBagian}
                                   <CheckIcon
                                     className={cn(
                                       "ml-auto h-4 w-4",
-                                      bidang.value === field.value
+                                      bidang.id === field.value
                                         ? "opacity-100"
                                         : "opacity-0"
                                     )}
@@ -182,10 +208,10 @@ export default function InputSurat() {
                             )}
                           >
                             {field.value
-                              ? listEkspedisi.find(
-                                (ekspedisi) => ekspedisi.value === field.value
-                              )?.label
-                              : "pilih Ekspedisi"}
+                              ? ekspedisiList.find(
+                                (ekspedisi) => ekspedisi.id === field.value
+                              )?.namaEkspedisi
+                              : "pilih ekspedisi"}
                             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                           </Button>
                         </FormControl>
@@ -197,21 +223,21 @@ export default function InputSurat() {
                             className="h-9"
                           />
                           <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandEmpty>Ekspedisi tidak ditemukan</CommandEmpty>
                             <CommandGroup>
-                              {listEkspedisi.map((ekspedisi) => (
+                              {ekspedisiList.map((ekspedisi) => (
                                 <CommandItem
-                                  value={ekspedisi.label}
-                                  key={ekspedisi.value}
+                                  value={ekspedisi.id}
+                                  key={ekspedisi.id}
                                   onSelect={() => {
-                                    inputSuratForm.setValue("ekspedisi", ekspedisi.value)
+                                    inputSuratForm.setValue("ekspedisi", ekspedisi.id)
                                   }}
                                 >
-                                  {ekspedisi.label}
+                                  {ekspedisi.namaEkspedisi}
                                   <CheckIcon
                                     className={cn(
                                       "ml-auto h-4 w-4",
-                                      ekspedisi.value === field.value
+                                      ekspedisi.id === field.value
                                         ? "opacity-100"
                                         : "opacity-0"
                                     )}
@@ -257,44 +283,6 @@ export default function InputSurat() {
             <div className={"flex flex-row gap-4"}>
               <FormField
                 control={inputSuratForm.control}
-                name={"createdDate"}
-                render={({field}) => (
-                  <FormItem className={"flex flex-col gap-1"}>
-                    <FormLabel>Tanggal Terima Surat</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            className={cn(
-                              "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>pilih tanggal</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage/>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={inputSuratForm.control}
                 name={"pengirim"}
                 render={({field}) => (
                   <FormItem className={"w-1/3 flex flex-col gap-1"}>
@@ -307,10 +295,10 @@ export default function InputSurat() {
                 )}
               />
             </div>
-            <div className={"flex flex-row justify-between items-center"}>
+            <div className={"flex flex-row justify-between items-end"}>
               <FormField
                 control={inputSuratForm.control}
-                name={"namaBerkas"}
+                name={"berkas"}
                 render={() => (
                   <FormItem className={"w-1/4"}>
                     <FormLabel>Upload Surat</FormLabel>
@@ -333,7 +321,7 @@ export default function InputSurat() {
                 >
                   <TrashIcon className={"mr-2"}/>Hapus
                 </Button>
-                <Button type={"submit"}>
+                <Button type={"submit"} disabled={inputSuratForm.formState.isSubmitting}>
                   Submit<PaperPlaneIcon className={"ml-2"}/>
                 </Button>
               </div>

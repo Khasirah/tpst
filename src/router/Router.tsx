@@ -8,6 +8,7 @@ import TandaTerima from "@/pages/TandaTerima.tsx";
 import PrivateRoute from "@/components/PrivateRoute.tsx";
 import UnprivateRoute from "@/components/UnprivateRoute.tsx";
 import RegisterSurat from "@/pages/RegisterSurat.tsx";
+import SettingsPage from "@/pages/SettingsPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,16 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Login />
+      }
+    ]
+  },
+  {
+    path: "/settings",
+    element: <PrivateRoute/>,
+    children: [
+      {
+        index: true,
+        element: <SettingsPage/>
       }
     ]
   },

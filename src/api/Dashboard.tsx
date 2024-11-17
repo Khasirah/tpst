@@ -1,11 +1,11 @@
 import {API_URL} from "@/config/config.tsx";
-import {WebResponse} from "@/model/response/WebResponse.tsx";
-import {UserResponse} from "@/model/response/UserResponse.tsx";
 import {getToken} from "@/utils/Helper.tsx";
+import {WebResponse} from "@/model/response/WebResponse.tsx";
+import {DashboardResponse} from "@/model/response/DashboardResponse.tsx";
 
-export async function getCurrentUser() {
+export async function getDashboard() {
 
-  const url: string = API_URL+"/api/users/current"
+  const url: string = API_URL+"/api/dashboard"
   const options: object = {
     method: "GET",
     headers: {
@@ -19,6 +19,6 @@ export async function getCurrentUser() {
     const data: WebResponse<null> = await response.json()
     throw data.errors
   }
-  const data: WebResponse<UserResponse> = await response.json()
+  const data: WebResponse<DashboardResponse> = await response.json()
   return data.data
 }
