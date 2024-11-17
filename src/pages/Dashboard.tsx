@@ -31,7 +31,7 @@ export default function Dashboard() {
       .then(data => {
         setDashboardData(data)
       })
-      .catch(e => {})
+      .catch(() => {})
       .finally(() => {
         setIsLoading(false)
       })

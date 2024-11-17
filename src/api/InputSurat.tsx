@@ -2,7 +2,6 @@ import {WebResponse} from "@/model/response/WebResponse.tsx";
 import {BagianAndEkspedisiResponse} from "@/model/response/BagianAndEkspedisiResponse.tsx";
 import {API_URL} from "@/config/config.tsx";
 import {getToken} from "@/utils/Helper.tsx";
-import {ErrorMessages} from "@/model/ErrorMessages.tsx";
 
 export async function getBagianAndEkspedisi() {
 

@@ -1,7 +1,6 @@
 import * as React from "react";
 import TitlePage from "@/components/TitlePage.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
-import {listSurat} from "@/types/ListSurat.tsx";
 import DataTable from "@/components/DataTable.tsx";
 import {columns} from "@/types/columns.tsx";
 import {useForm} from "react-hook-form";
