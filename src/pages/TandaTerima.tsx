@@ -35,19 +35,19 @@ import {
   CommandList,
 } from "@/components/ui/command.tsx";
 import {useState} from "react";
-import {Surat} from "@/types/Surat.tsx";
 import {listSuratByYear} from "@/api/Surat.tsx";
 import {useToast} from "@/hooks/use-toast.ts";
+import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
 
 export default function TandaTerima(): React.JSX.Element {
   const form = useForm<TandaTerimaField>({
     resolver: zodResolver(tandaTerimaSchema),
   });
-  const [daftarSurat, setDaftarSurat] = useState<Surat[]>([]);
+  const [daftarSurat, setDaftarSurat] = useState<ForListSuratResponse[]>([]);
   const {toast} = useToast();
 
   async function onSubmit(data: TandaTerimaField) {
-    listSuratByYear(data.tahun)
+    listSuratByYear(parseInt(data.tahun))
       .then((data) => {
         setDaftarSurat(data);
       })
@@ -57,7 +57,8 @@ export default function TandaTerima(): React.JSX.Element {
           description: e
         })
       })
-      .finally(() => {})
+      .finally(() => {
+      })
   }
 
   return (
@@ -136,11 +137,7 @@ export default function TandaTerima(): React.JSX.Element {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {daftarSurat.length != 0 ? (
-        <DataTable columns={columns} data={daftarSurat}/>
-      ) : (
-        <div className={"flex justify-center text-2xl"}>Tidak ada data</div>
-      )}
+      <DataTable columns={columns} data={daftarSurat} page={"surat"}/>
     </div>
   );
 }

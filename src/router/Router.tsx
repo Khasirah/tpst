@@ -9,19 +9,30 @@ import PrivateRoute from "@/components/PrivateRoute.tsx";
 import UnprivateRoute from "@/components/UnprivateRoute.tsx";
 import RegisterSurat from "@/pages/RegisterSurat.tsx";
 import SettingsPage from "@/pages/SettingsPage.tsx";
+import SuratPage from "@/pages/SuratPage.tsx";
+import Petugas from "@/pages/Petugas.tsx";
+import {loader as suratLoader} from "@/components/loader.tsx";
+import SuratMasuk from "@/pages/SuratMasuk.tsx";
+import {searchUser} from "@/api/User.tsx";
+import AddUser from "@/pages/AddUser.tsx";
+import AdminRoute from "@/components/AdminRoute.tsx";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoute />,
+    element: <PrivateRoute/>,
     errorElement: <ErrorPage/>,
     children: [
       {
-        element: <Layout />,
+        element: <Layout/>,
         children: [
           {
             index: true,
             element: <Dashboard/>
+          },
+          {
+            path: "suratMasuk",
+            element: <SuratMasuk/>
           },
           {
             path: "inputSurat",
@@ -33,8 +44,32 @@ export const router = createBrowserRouter([
           },
           {
             path: "registerSurat",
-            element: <RegisterSurat />
-          }
+            element: <RegisterSurat/>
+          },
+          {
+            path: "petugas",
+            element: <AdminRoute/>,
+            children: [
+              {
+                index: true,
+                element: <Petugas/>,
+                loader: searchUser
+              },
+              {
+                path: ":idUser",
+                element: <AddUser/>
+              },
+              {
+                path: "tambahPetugas",
+                element: <AddUser/>
+              }
+            ],
+          },
+          {
+            path: "surat/:idSurat",
+            element: <SuratPage/>,
+            loader: suratLoader
+          },
         ]
       },
     ]
@@ -45,7 +80,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Login />
+        element: <Login/>
       }
     ]
   },

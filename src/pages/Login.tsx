@@ -78,7 +78,7 @@ export default function Login() {
                 <Label htmlFor="nip">NIP 9</Label>
                 <Input
                   id="nip"
-                  name={"nip"}
+                  name="nip"
                   placeholder="NIP 9 SIKKA"
                   {...register("idUser")}
                 />
@@ -93,7 +93,7 @@ export default function Login() {
                 <Input
                   type={"password"}
                   id="password"
-                  name={"password"}
+                  name="password"
                   placeholder="Password"
                   {...register("password")}
                 />

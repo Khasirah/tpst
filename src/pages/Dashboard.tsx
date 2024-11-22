@@ -19,11 +19,16 @@ import {Separator} from "@/components/ui/separator";
 import {useEffect, useState} from "react";
 import {DashboardResponse} from "@/model/response/DashboardResponse.tsx";
 import {getDashboard} from "@/api/Dashboard.tsx";
-import * as React from "react";
 import {Loading} from "@/components/Loading.tsx";
 
 export default function Dashboard() {
-  const [dashboardData, setDashboardData] = useState<DashboardResponse>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardResponse>({
+    totalPetugas: 0,
+    totalSuratMasuk: 0,
+    totalSuratByPetugasTPST: 0,
+    totalSuratAtTPST: 0,
+    newestSuratInbound: []
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -112,7 +117,7 @@ export default function Dashboard() {
                           <TableCell>{item.perihal}</TableCell>
                           <TableCell>{item.namaPengirim}</TableCell>
                           <TableCell>{item.namaPetugasTpst}</TableCell>
-                          <TableCell>{new Date(item.tanggalTerima).toLocaleString()}</TableCell>
+                          <TableCell>{new Date(item.tanggalTerima).toLocaleString("en-GB")}</TableCell>
                         </TableRow>
                       ))
                       : <></>

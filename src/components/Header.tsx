@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "@/api/Auth.tsx";
 import { generatePhotoProfile, getToken } from "@/utils/Helper.tsx";
 import useSecureLs from "@/hooks/useSecureLs.tsx";
+import {SidebarTrigger} from "@/components/ui/sidebar.tsx";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -30,7 +31,10 @@ export default function Header() {
   }
 
   return (
-    <div className={"h-14 border-b px-4 flex justify-end"}>
+    <div className={"h-14 border-b px-4 flex justify-between"}>
+      <div className={"flex items-center"}>
+        <SidebarTrigger/>
+      </div>
       <div className={"flex gap-2 items-center"}>
         <div>
           <Button variant={"ghost"} size={"icon"}>

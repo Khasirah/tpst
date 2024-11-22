@@ -1,21 +1,20 @@
 import Header from "@/components/Header.tsx";
-import LeftNav from "@/components/LeftNav.tsx";
 import {Outlet} from "react-router-dom";
 import {Toaster} from "@/components/ui/toaster.tsx";
+import {SidebarProvider} from "@/components/ui/sidebar.tsx";
+import {AppSidebar} from "@/components/AppSidebar.tsx";
 
 export default function Layout() {
   return (
-    <div className={"grid grid-cols-5 h-screen"}>
-      <div className={"h-full border-r"}>
-        <LeftNav/>
-      </div>
-      <div className={"col-span-4"}>
+    <SidebarProvider>
+      <AppSidebar/>
+      <main className={"w-full"}>
         <Header/>
         <div className={"px-4 pt-4"}>
           <Outlet/>
           <Toaster/>
         </div>
-      </div>
-    </div>
+      </main>
+    </SidebarProvider>
   )
 }

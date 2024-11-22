@@ -36,8 +36,8 @@ export default function InputSurat() {
     }
   })
   const fileRef = inputSuratForm.register("berkas")
-  const [bidangList, setBidangList] = useState<Bagian[]>(null)
-  const [ekspedisiList, setEkspedisiList] = useState<Ekspedisi[]>(null)
+  const [bidangList, setBidangList] = useState<Bagian[]>([])
+  const [ekspedisiList, setEkspedisiList] = useState<Ekspedisi[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const {toast} = useToast();
 

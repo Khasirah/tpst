@@ -5,6 +5,8 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import generateTandaTerima from "@/components/TandaTerimaPdf.tsx";
 import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
 import {getSuratById} from "@/api/Surat.tsx";
+import {Pencil2Icon} from "@radix-ui/react-icons";
+import {NavLink} from "react-router-dom";
 
 export const columns: ColumnDef<ForListSuratResponse>[] = [
   {
@@ -37,8 +39,9 @@ export const columns: ColumnDef<ForListSuratResponse>[] = [
       )
     },
     cell: ({row}) => {
-      const dateValue = new Date(row.getValue("tanggalTerima").toString())
-      return `${dateValue.toLocaleDateString()}`
+      const surat = row.original
+      const dateValue = new Date(surat.tanggalTerima)
+      return <div>{dateValue.getDate()}/{dateValue.getMonth()}/{dateValue.getFullYear()}, {dateValue.toLocaleTimeString("en-GB")}</div>
     }
   },
   {
@@ -47,7 +50,7 @@ export const columns: ColumnDef<ForListSuratResponse>[] = [
     cell: ({row}) => {
       const idSurat = row.original.idSurat
 
-      async function onClickHandler() {
+      async function onClickCetakHandler() {
         const surat = await getSuratById(idSurat)
         const pdf = await generateTandaTerima(surat)
         pdf.open()
@@ -57,13 +60,27 @@ export const columns: ColumnDef<ForListSuratResponse>[] = [
         <div className={"flex flex-row gap-1"}>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger>
-                <Button onClick={onClickHandler} variant="outline" size="icon" asChild>
-                  <PrinterIcon className={"h-5"}/>
+              <TooltipTrigger asChild>
+                <Button onClick={onClickCetakHandler} variant="outline" size="icon">
+                  <PrinterIcon className={"size-5"}/>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Cetak Tanda Terima</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <NavLink to={`/surat/${idSurat}`}>
+                    <Pencil2Icon className={"size-5"}/>
+                  </NavLink>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Edit</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
