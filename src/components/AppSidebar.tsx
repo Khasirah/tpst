@@ -4,7 +4,6 @@ import {
   SidebarFooter,
   SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import {NavLink} from "react-router-dom";
 import {
   ArchiveIcon,
   DashboardIcon,
@@ -15,6 +14,7 @@ import {
 } from "@radix-ui/react-icons";
 import {IconProps} from "@radix-ui/react-icons/dist/types";
 import * as React from "react";
+import {NavLink} from "react-router";
 
 type LinkPage = {
   title: string

@@ -10,11 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar.tsx";
-import { useNavigate } from "react-router-dom";
 import { logout } from "@/api/Auth.tsx";
 import { generatePhotoProfile, getToken } from "@/utils/Helper.tsx";
 import useSecureLs from "@/hooks/useSecureLs.tsx";
 import {SidebarTrigger} from "@/components/ui/sidebar.tsx";
+import {useNavigate} from "react-router";
 
 export default function Header() {
   const navigate = useNavigate();

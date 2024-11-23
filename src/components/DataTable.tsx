@@ -11,18 +11,19 @@ import {Button} from "@/components/ui/button.tsx";
 import {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input.tsx";
 import * as React from "react";
-import {Plus} from "lucide-react";
-import {NavLink} from "react-router-dom";
+import {Plus, UploadIcon} from "lucide-react";
 import {PagingResponse} from "@/model/response/PagingResponse.tsx";
 import {searchUser} from "@/api/User.tsx";
-import {loaderType} from "@/pages/Petugas.tsx";
 import {useToast} from "@/hooks/use-toast.ts";
+import {NavLink} from "react-router";
+import {WebResponse} from "@/model/response/WebResponse.tsx";
+import {UserResponse} from "@/model/response/UserResponse.tsx";
 
 interface DataTableProps<TData, TValue> extends ForPageType {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
   paging: PagingResponse,
-  dataChangeHandler: (data: loaderType) => void
+  dataChangeHandler: (data: WebResponse<UserResponse[]>) => void
 }
 
 interface ForPageType {
@@ -66,12 +67,12 @@ export default function DataTable<TData, TValue>(
 
   useEffect(() => {
 
-    searchUser({
-      idUser: null,
-      namaUser: null,
-      page: pagination.pageIndex,
-      size: pagination.pageSize
-    })
+    searchUser(
+      undefined,
+      undefined,
+      pagination.pageIndex,
+      pagination.pageSize
+    )
       .then(data => {
         dataChangeHandler(data)
       })
@@ -91,12 +92,12 @@ export default function DataTable<TData, TValue>(
             value={(table.getColumn(page === "surat" ? "nomorSurat" : "idUser")?.getFilterValue() as string) ?? ""}
             onChange={(event) => {
               table.getColumn(page === "surat" ? "nomorSurat" : "idUser")?.setFilterValue(event.target.value)
-              searchUser({
-                idUser: event.target.value,
-                namaUser: null,
-                page: 0,
-                size: pagination.pageSize
-              })
+              searchUser(
+                event.target.value,
+                undefined,
+                0,
+                pagination.pageSize
+              )
                 .then(data => {
                   dataChangeHandler(data)
                 })
@@ -114,12 +115,12 @@ export default function DataTable<TData, TValue>(
               value={(table.getColumn("namaUser")?.getFilterValue() as string) ?? ""}
               onChange={(event) => {
                 table.getColumn("namaUser")?.setFilterValue(event.target.value)
-                searchUser({
-                  idUser: null,
-                  namaUser: event.target.value,
-                  page: 0,
-                  size: pagination.pageSize
-                })
+                searchUser(
+                  undefined,
+                  event.target.value,
+                  0,
+                  pagination.pageSize
+                )
                   .then(data => {
                     dataChangeHandler(data)
                   })
@@ -135,11 +136,18 @@ export default function DataTable<TData, TValue>(
         </div>
         {
           page === "petugas" && (
-            <Button asChild>
-              <NavLink to={"/petugas/tambahPetugas"}>
-                <Plus/> Tambah User
-              </NavLink>
-            </Button>
+            <div className={"space-x-2"}>
+              <Button asChild>
+                <NavLink to={"/petugas/tambahPetugas"}>
+                  <Plus/> Tambah User
+                </NavLink>
+              </Button>
+              <Button asChild>
+                <NavLink to={"/petugas/uploadPetugas"}>
+                  <UploadIcon/> Upload
+                </NavLink>
+              </Button>
+            </div>
           )
         }
       </div>

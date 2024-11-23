@@ -1,4 +1,3 @@
-import {createBrowserRouter} from "react-router-dom";
 import Layout from "@/pages/layout/Layout.tsx";
 import Dashboard from "@/pages/Dashboard.tsx";
 import Login from "@/pages/Login.tsx";
@@ -16,6 +15,7 @@ import SuratMasuk from "@/pages/SuratMasuk.tsx";
 import {searchUser} from "@/api/User.tsx";
 import AddUser from "@/pages/AddUser.tsx";
 import AdminRoute from "@/components/AdminRoute.tsx";
+import {createBrowserRouter} from "react-router";
 
 export const router = createBrowserRouter([
   {

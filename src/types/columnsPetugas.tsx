@@ -9,7 +9,6 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import {MoreHorizontal} from "lucide-react";
 import {Pencil2Icon, TrashIcon} from "@radix-ui/react-icons";
-import {NavLink} from "react-router-dom";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -18,10 +17,11 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog.tsx";
 import {deleteUser, searchUser} from "@/api/User.tsx";
-import {loaderType} from "@/pages/Petugas.tsx";
+import {NavLink} from "react-router";
+import {WebResponse} from "@/model/response/WebResponse.tsx";
 
 export const columnsPetugas = (
-  dataChangeHandler: (data: loaderType) => void
+  dataChangeHandler: (data: WebResponse<UserResponse[]>) => void
 ): ColumnDef<UserResponse>[] => {
   return [
     {
@@ -57,12 +57,12 @@ export const columnsPetugas = (
             .catch(() => {
             })
             .then(() => {
-              searchUser({
-                idUser: null,
-                namaUser: null,
-                page: state.pagination.pageIndex,
-                size: state.pagination.pageSize
-              })
+              searchUser(
+                "",
+                "",
+                state.pagination.pageIndex,
+                state.pagination.pageSize
+              )
                 .then(data => {
                   dataChangeHandler(data)
                 })

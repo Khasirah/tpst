@@ -3,9 +3,9 @@ import {API_URL} from "@/config/config.tsx";
 import {getToken} from "@/utils/Helper.tsx";
 import {Bagian} from "@/model/Bagian.tsx";
 
-export async function getAllBagian(): WebResponse<Bagian[]> {
+export async function getAllBagian(): Promise<WebResponse<Bagian[]>> {
 
-  const url: string = API_URL + "/api/kelompok"
+  const url: string = API_URL + "/api/bagian"
   const options: object = {
     method: "GET",
     headers: {

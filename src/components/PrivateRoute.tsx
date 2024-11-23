@@ -1,8 +1,8 @@
-import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading.tsx";
 import { getCurrentUser } from "@/api/User.tsx";
 import useSecureLs from "@/hooks/useSecureLs.tsx";
+import {Navigate, Outlet} from "react-router";
 
 export default function PrivateRoute() {
   const { setItem } = useSecureLs();
@@ -29,6 +29,6 @@ export default function PrivateRoute() {
   ) : isLogin ? (
     <Outlet />
   ) : (
-    <Navigate to={"/login"} />
+    <Navigate to={"/login"}/>
   );
 }

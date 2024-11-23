@@ -3,7 +3,7 @@ import {getToken} from "@/utils/Helper.tsx";
 import {WebResponse} from "@/model/response/WebResponse.tsx";
 import {Kelompok} from "@/model/Kelompok.tsx";
 
-export async function getAllKelompok(): WebResponse<Kelompok[]> {
+export async function getAllKelompok(): Promise<WebResponse<Kelompok[]>> {
 
   const url: string = API_URL + "/api/kelompok"
   const options: object = {

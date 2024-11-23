@@ -6,7 +6,7 @@ import generateTandaTerima from "@/components/TandaTerimaPdf.tsx";
 import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
 import {getSuratById} from "@/api/Surat.tsx";
 import {Pencil2Icon} from "@radix-ui/react-icons";
-import {NavLink} from "react-router-dom";
+import {NavLink} from "react-router";
 
 export const columns: ColumnDef<ForListSuratResponse>[] = [
   {

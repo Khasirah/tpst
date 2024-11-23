@@ -1,8 +1,7 @@
-import {NavLink, useRouteError} from "react-router-dom";
 import {Button} from "@/components/ui/button.tsx";
+import {NavLink} from "react-router";
 
 export default function ErrorPage() {
-  const error = useRouteError();
 
   return (
     <div
@@ -12,10 +11,7 @@ export default function ErrorPage() {
       <h1
         className={"text-4xl"}
       >Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.status} {error.statusText || error.message}</i>
-      </p>
+      <p>Sorry, the page is not found</p>
       <Button asChild>
         <NavLink to={"/"}>
           Back to Dashboard

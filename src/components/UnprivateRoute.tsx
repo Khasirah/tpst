@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {getCurrentUser} from "@/api/User.tsx";
 import {Loading} from "@/components/Loading.tsx";
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, Outlet} from "react-router";
 
 export default function UnprivateRoute() {
 

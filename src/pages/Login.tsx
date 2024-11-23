@@ -15,7 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { ExclamationTriangleIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { LoginField, loginSchema } from "@/types/LoginSchema.tsx";
 import { login } from "@/api/Auth.tsx";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router";
 
 export default function Login() {
   const {
