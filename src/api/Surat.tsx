@@ -38,9 +38,21 @@ export async function createSurat(
   return data
 }
 
-export async function listSuratByYear(year: number) {
+export async function searchSurat(
+  year: number,
+  nomorSurat?: string,
+  page?: number,
+  size?: number
+) {
 
-  const url: string = API_URL + `/api/surat?tahun=${year}`;
+  const param = new URLSearchParams({
+    "nomorSurat": nomorSurat ? nomorSurat : "",
+    "tahun": year.toString(),
+    "page": page ? page.toString() : "0",
+    "size": size ? size.toString() : "20"
+  })
+
+  const url: string = API_URL + `/api/surat?${param}`;
   const options: object = {
     method: "GET",
     headers: {
@@ -54,7 +66,7 @@ export async function listSuratByYear(year: number) {
     throw error.errors
   }
   const data: WebResponse<ForListSuratResponse[]> = await response.json()
-  return data.data
+  return data
 }
 
 export async function getSuratById(idSurat: number): Promise<SuratResponse> {
@@ -78,8 +90,8 @@ export async function getSuratById(idSurat: number): Promise<SuratResponse> {
 
 export async function updateSurat(
   idSurat: number,
-  pdfFile: File | null,
-  reqeust: UpdateSuratRequest | null
+  reqeust: UpdateSuratRequest | null,
+  pdfFile?: File | null,
 ): Promise<string> {
 
   const body = new FormData()
@@ -107,7 +119,7 @@ export async function updateSurat(
   }
 
   const response = await fetch(url, options)
-  if(!response.ok) {
+  if (!response.ok) {
     const error: WebResponse<null> = await response.json()
     throw error.errors
   }
@@ -132,4 +144,48 @@ export async function deleteSurat(idSurat: number): Promise<string> {
   }
   const data: WebResponse<string> = await response.json()
   return data.data
+}
+
+export async function handleUploadBerkas(idSurat: number, pdfFile: File) {
+
+  const body = new FormData()
+  body.append("pdfFile", pdfFile)
+
+  const url: string = API_URL + `/api/surat/${idSurat}/upload`
+  const options: object = {
+    method: "POST",
+    headers: {
+      "X-API-TOKEN": getToken()
+    },
+    body: body
+  }
+
+  const response = await fetch(url, options)
+  if (!response.ok) {
+    const errors: WebResponse<null> = await response.json()
+    throw errors.errors
+  }
+
+  const data: WebResponse<string> = await response.json()
+  return data.data
+}
+
+export async function downloadBerkas(idSurat: number) {
+
+  const url: string = API_URL + `/api/surat/${idSurat}/download`
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      "X-API-TOKEN": getToken(),
+    }
+  }
+
+  const response = await fetch(url, options);
+  return await response.blob();
+}
+
+export async function getSuratByDate(date: Date | undefined) {
+  if (date != undefined) {
+  console.log(date)
+  }
 }

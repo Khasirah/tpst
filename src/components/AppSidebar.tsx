@@ -2,12 +2,12 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from "@/components/ui/sidebar"
 import {
   ArchiveIcon,
   DashboardIcon,
-  EnvelopeClosedIcon, GearIcon,
+  EnvelopeClosedIcon,
   InputIcon,
   ListBulletIcon,
   PersonIcon
@@ -53,20 +53,17 @@ const items: LinkPage[] = [
     url: "/petugas",
     icon: PersonIcon
   },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: GearIcon
-  }
 ]
 
 export function AppSidebar() {
+  const {state} = useSidebar();
   return (
-    <Sidebar>
+    <Sidebar collapsible={"icon"}>
       <SidebarHeader>
-        <div className={"flex justify-center items-center h-14 px-4"}>
+        <div className={"flex justify-center items-center h-12 px-4"}>
           <h1 className={"font-bold"}>
-            <span className={"mr-2 text-lg"}>📮</span>Aplikasi TPST Kanwil Jakpus
+            <span>📮</span>
+            {state == "expanded" && "TPST Kanwil Jakpus"}
           </h1>
         </div>
       </SidebarHeader>

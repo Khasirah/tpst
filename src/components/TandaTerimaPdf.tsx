@@ -74,19 +74,17 @@ export default async function generateTandaTerima(surat: SuratResponse) {
       {
         margin: [0, 30, 0, 0],
         table: {
-          widths: ["*", "*", "*"],
+          widths: ["*", "*"],
           headerRows: 1,
           body: [
             // header
             [
               {text: "NOMOR SURAT", style: ["text12", "fontBold", "alignCenter"]},
-              {text: "PENGIRIM", style: ["text12", "fontBold", "alignCenter"]},
               {text: "PERIHAL", style: ["text12", "fontBold", "alignCenter"]}
             ],
             // end header
             [
               {text: surat.nomorSurat, style: ["alignCenter"]},
-              {text: surat.namaPengirim, style: ["alignCenter"]},
               surat.perihal
             ]
           ]
@@ -130,19 +128,17 @@ export default async function generateTandaTerima(surat: SuratResponse) {
       {
         margin: [0, 30, 0, 0],
         table: {
-          widths: ["*", "*", "*"],
+          widths: ["*", "*"],
           headerRows: 1,
           body: [
             // header
             [
               {text: "NOMOR SURAT", style: ["text12", "fontBold", "alignCenter"]},
-              {text: "PENGIRIM", style: ["text12", "fontBold", "alignCenter"]},
               {text: "PERIHAL", style: ["text12", "fontBold", "alignCenter"]}
             ],
             // end header
             [
               {text: surat.nomorSurat, style: ["alignCenter"]},
-              {text: surat.namaPengirim, style: ["alignCenter"]},
               surat.perihal
             ]
           ]

@@ -52,7 +52,7 @@ function UploadPageDescription() {
         </TableBody>
       </Table>
       <Table>
-        <TableCaption>Daftar Bagian / Bidang</TableCaption>
+        <TableCaption>Daftar Bagian / Bidang*</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">No</TableHead>

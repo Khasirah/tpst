@@ -154,3 +154,24 @@ export async function uploadUsers(csvFile: File) {
   const data: WebResponse<string> = await response.json()
   return data.data
 }
+
+export async function updateCurrentUser(request: UpdateSpecificUserRequest) {
+  const url: string = API_URL + `/api/users/current`
+  const options: object = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-TOKEN": getToken()
+    },
+    body: JSON.stringify(request)
+  }
+
+  const response = await fetch(url, options)
+  if (!response.ok) {
+    const data: WebResponse<null> = await response.json()
+    throw data.errors
+  }
+
+  const data: WebResponse<UserResponse> = await response.json()
+  return data.data
+}

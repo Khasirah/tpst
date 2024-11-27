@@ -18,18 +18,20 @@ import AddUser from "@/pages/AddUser.tsx";
 import EditUser from "@/pages/EditUser.tsx";
 import UploadPage from "@/pages/UploadPage.tsx";
 import AdminRoute from "@/components/AdminRoute.tsx";
+import ProfilePage from "@/pages/ProfilePage.tsx";
+import DetailSurat from "@/pages/DetailSurat.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider defaultTheme={"dark"} storageKey={"ui-theme"}>
       <BrowserRouter>
         <Routes>
-          <Route path={"/"} element={<PrivateRoute/>}>
+          <Route path={"/"} element={<PrivateRoute/>} errorElement={<ErrorPage/>}>
             <Route element={<Layout/>}>
               <Route index element={<Dashboard/>}/>
               <Route path={"suratMasuk"} element={ <SuratMasuk/> } />
               <Route path={"inputSurat"} element={ <InputSurat/> } />
-              <Route path={"tandaTerima"} element={ <TandaTerima/> } />
+              <Route path={"tandaTerima"} element={ <TandaTerima/> }/>
               <Route path={"registerSurat"} element={ <RegisterSurat/> } />
               <Route path={"petugas"} element={ <AdminRoute/> }>
                 <Route index element={ <Petugas/> }/>
@@ -37,6 +39,8 @@ createRoot(document.getElementById('root')!).render(
                 <Route path={"uploadPetugas"} element={ <UploadPage/> } />
                 <Route path={":idUser"} element={ <EditUser/> } />
               </Route>
+              <Route path={"profile"} element={ <ProfilePage/> }/>
+              <Route path={"surat/:idSurat"} element={<DetailSurat/>} />
             </Route>
           </Route>
           <Route element={<UnprivateRoute/>} errorElement={<ErrorPage/>}>

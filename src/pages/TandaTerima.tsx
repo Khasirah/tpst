@@ -35,21 +35,31 @@ import {
   CommandList,
 } from "@/components/ui/command.tsx";
 import {useState} from "react";
-import {listSuratByYear} from "@/api/Surat.tsx";
+import {searchSurat} from "@/api/Surat.tsx";
 import {useToast} from "@/hooks/use-toast.ts";
+import {WebResponse} from "@/model/response/WebResponse.tsx";
 import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
 
 export default function TandaTerima(): React.JSX.Element {
   const form = useForm<TandaTerimaField>({
     resolver: zodResolver(tandaTerimaSchema),
   });
-  const [daftarSurat, setDaftarSurat] = useState<ForListSuratResponse[]>([]);
+  const [dataForDataTable, setDataForDataTable] =
+    useState<WebResponse<ForListSuratResponse[]>>({
+      data: [],
+      paging: {
+        totalPage: 0,
+        currentPage: 0,
+        size: 0
+      },
+      errors: ""
+    })
   const {toast} = useToast();
 
   async function onSubmit(data: TandaTerimaField) {
-    listSuratByYear(parseInt(data.tahun))
+    searchSurat(parseInt(data.tahun))
       .then((data) => {
-        setDaftarSurat(data);
+        setDataForDataTable(data);
       })
       .catch(e => {
         toast({
@@ -57,8 +67,10 @@ export default function TandaTerima(): React.JSX.Element {
           description: e
         })
       })
-      .finally(() => {
-      })
+  }
+
+  function dataChangeHandler(dataChange: WebResponse<ForListSuratResponse[]>) {
+    setDataForDataTable(dataChange)
   }
 
   return (
@@ -137,7 +149,14 @@ export default function TandaTerima(): React.JSX.Element {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <DataTable columns={columns} data={daftarSurat} page={"surat"}/>
+      <DataTable
+        columns={columns}
+        data={dataForDataTable.data}
+        page={"surat"}
+        paging={dataForDataTable.paging}
+        dataSuratChangeHandler={dataChangeHandler}
+        year={parseInt(form.getValues("tahun"))}
+      />
     </div>
   );
 }

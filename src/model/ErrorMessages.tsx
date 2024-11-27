@@ -3,5 +3,6 @@ export enum ErrorMessages {
   notLogin = "tidak dapat melakukan permintaan perlu melakukan login terlebih dahulu",
   userNotExist = "user tidak ditemukan",
   noFileToBeUploaded = "harap memilih file untuk diupload",
-  fileNotCSV = "harap upload file csv"
+  fileNotCSV = "harap upload file csv",
+  fileNotPdf = "harap upload file pdf"
 }

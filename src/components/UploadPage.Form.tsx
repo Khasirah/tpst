@@ -27,7 +27,6 @@ function UploadPageForm() {
   const fileRef = form.register("csvFile")
 
   function onSubmit(data: z.infer<typeof uploadUserSchema>) {
-    console.log(data)
 
     if (data.csvFile.item(0) == null) {
       toast({

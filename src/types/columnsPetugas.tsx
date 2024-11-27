@@ -26,8 +26,9 @@ export const columnsPetugas = (
   return [
     {
       header: "No",
-      cell: ({row}) => {
-        return <div>{row.index + 1}</div>
+      cell: ({row, table}) => {
+        const pagination = table.getState().pagination
+        return <div>{row.index + 1 + (pagination.pageIndex * pagination.pageSize)}</div>
       }
     },
     {

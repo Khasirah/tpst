@@ -41,7 +41,7 @@ export const columns: ColumnDef<ForListSuratResponse>[] = [
     cell: ({row}) => {
       const surat = row.original
       const dateValue = new Date(surat.tanggalTerima)
-      return <div>{dateValue.getDate()}/{dateValue.getMonth()}/{dateValue.getFullYear()}, {dateValue.toLocaleTimeString("en-GB")}</div>
+      return <div>{dateValue.getDate()}/{dateValue.getMonth() + 1}/{dateValue.getFullYear()}, {dateValue.toLocaleTimeString("en-GB")}</div>
     }
   },
   {

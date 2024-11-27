@@ -24,17 +24,19 @@ import {getAllKelompok} from "@/api/Kelompok.tsx";
 import {UserResponse} from "@/model/response/UserResponse.tsx";
 import {editUserSchema} from "@/types/EditUser.Schema.ts";
 import {UpdateSpecificUserRequest} from "@/model/request/UpdateSpecificUserRequest.ts";
-import {updateSpecificUser} from "@/api/User.tsx";
+import {updateCurrentUser, updateSpecificUser} from "@/api/User.tsx";
 import {useToast} from "@/hooks/use-toast.ts";
 
 type EditUserFormProp = {
   user: UserResponse,
+  isCurrentUser?: boolean
 }
 
 function EditUserForm(
   {
     user,
-  } : EditUserFormProp
+    isCurrentUser = false
+  }: EditUserFormProp
 ) {
   const {toast} = useToast();
   const [bagianList, setBagianList] = useState<Bagian[]>([])
@@ -64,19 +66,37 @@ function EditUserForm(
       password: data.password ? data.password : null
     }
 
-    updateSpecificUser(request)
-      .then(response => {
-        toast({
-          description: `berhasil mengubah data ${response.namaUser}`
+    if (!isCurrentUser) {
+      updateSpecificUser(request)
+        .then(response => {
+          toast({
+            description: `berhasil mengubah data ${response.namaUser}`
+          })
+          setFormValue(response)
         })
-        setFormValue(response)
-      })
-      .catch(e => {
-        toast({
-          variant: "destructive",
-          description: e
+        .catch(e => {
+          toast({
+            variant: "destructive",
+            description: e
+          })
         })
-      })
+    }
+
+    if (isCurrentUser) {
+      updateCurrentUser(request)
+        .then(response => {
+          toast({
+            description: `berhasil mengubah data ${response.namaUser}`
+          })
+          setFormValue(response)
+        })
+        .catch(e => {
+          toast({
+            variant: "destructive",
+            description: e
+          })
+        })
+    }
 
     form.reset({
       password: ""
@@ -112,7 +132,11 @@ function EditUserForm(
             <FormItem className={"max-w-sm"}>
               <FormLabel>NIP Pendek</FormLabel>
               <FormControl>
-                <Input disabled placeholder="nip pendek" {...field} />
+                <Input
+                  disabled
+                  placeholder="nip pendek"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Ini akan menjadi username Anda
@@ -128,7 +152,11 @@ function EditUserForm(
             <FormItem className={"max-w-sm"}>
               <FormLabel>Nama</FormLabel>
               <FormControl>
-                <Input placeholder="nama" {...field}/>
+                <Input
+                  disabled={isCurrentUser}
+                  placeholder="nama"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Ini akan menjadi nama yang dimunculkan
@@ -140,13 +168,14 @@ function EditUserForm(
         <FormField
           control={form.control}
           name="idBagian"
-          render={({ field }) => (
+          render={({field}) => (
             <FormItem className="flex flex-col">
               <FormLabel>Bidang</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      disabled={isCurrentUser}
                       variant="outline"
                       role="combobox"
                       className={cn(
@@ -159,7 +188,7 @@ function EditUserForm(
                           (bagian) => bagian.id.toString() === field.value
                         )?.namaBagian
                         : "Pilih bidang"}
-                      <ChevronsUpDown className="opacity-50" />
+                      <ChevronsUpDown className="opacity-50"/>
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -199,20 +228,21 @@ function EditUserForm(
               <FormDescription>
                 Ini akan menjadi bidang anda
               </FormDescription>
-              <FormMessage />
+              <FormMessage/>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="idKelompok"
-          render={({ field }) => (
+          render={({field}) => (
             <FormItem className="flex flex-col">
               <FormLabel>Kelompok</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      disabled={isCurrentUser}
                       variant="outline"
                       role="combobox"
                       className={cn(
@@ -225,7 +255,7 @@ function EditUserForm(
                           (kelompok) => kelompok.id.toString() === field.value
                         )?.namaKelompok
                         : "Pilih kelompok"}
-                      <ChevronsUpDown className="opacity-50" />
+                      <ChevronsUpDown className="opacity-50"/>
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -265,7 +295,7 @@ function EditUserForm(
               <FormDescription>
                 Ini akan menjadi kelompok anda
               </FormDescription>
-              <FormMessage />
+              <FormMessage/>
             </FormItem>
           )}
         />
