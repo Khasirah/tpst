@@ -48,3 +48,7 @@ export function createATag(blob: Blob, fileName: string) {
   window.URL.revokeObjectURL(url);
   a.remove();
 }
+
+export function tanggalTerimaFormat(date: Date) {
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+}

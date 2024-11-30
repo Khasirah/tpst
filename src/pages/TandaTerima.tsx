@@ -2,7 +2,7 @@ import * as React from "react";
 import TitlePage from "@/components/TitlePage.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import DataTable from "@/components/DataTable.tsx";
-import {columns} from "@/types/columns.tsx";
+import {columnsTandaTerima} from "@/types/columnsTandaTerima.tsx";
 import {useForm} from "react-hook-form";
 import {
   TandaTerimaField,
@@ -150,7 +150,7 @@ export default function TandaTerima(): React.JSX.Element {
         </form>
       </Form>
       <DataTable
-        columns={columns}
+        columns={columnsTandaTerima}
         data={dataForDataTable.data}
         page={"surat"}
         paging={dataForDataTable.paging}

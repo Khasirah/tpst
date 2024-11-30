@@ -191,7 +191,7 @@ function InputSuratForm(
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent className="w-[200px] h-64 p-0">
                       <Command>
                         <CommandInput
                           placeholder="pencarian ekspedisi"

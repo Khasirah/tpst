@@ -2,8 +2,6 @@ import {
   ColumnDef, ColumnFiltersState,
   flexRender,
   getCoreRowModel, getFilteredRowModel,
-  getSortedRowModel, OnChangeFn,
-  SortingState,
   useReactTable
 } from "@tanstack/react-table";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
@@ -44,7 +42,6 @@ export default function DataTable<TData, TValue>(
     dataSuratChangeHandler,
     year
   }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>()
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
@@ -57,14 +54,11 @@ export default function DataTable<TData, TValue>(
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    onSortingChange: setSorting as OnChangeFn<SortingState>,
-    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
     pageCount: paging.totalPage,
     state: {
-      sorting,
       columnFilters,
       pagination
     }

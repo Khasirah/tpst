@@ -1,6 +1,6 @@
 import {ColumnDef} from "@tanstack/react-table";
 import {Button} from "@/components/ui/button.tsx";
-import {ArrowUpDownIcon, PrinterIcon} from "lucide-react";
+import {PrinterIcon} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import generateTandaTerima from "@/components/TandaTerimaPdf.tsx";
 import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
@@ -8,7 +8,7 @@ import {getSuratById} from "@/api/Surat.tsx";
 import {Pencil2Icon} from "@radix-ui/react-icons";
 import {NavLink} from "react-router";
 
-export const columns: ColumnDef<ForListSuratResponse>[] = [
+export const columnsTandaTerima: ColumnDef<ForListSuratResponse>[] = [
   {
     accessorKey: "nomorSurat",
     header: "Nomor Surat"
@@ -27,17 +27,7 @@ export const columns: ColumnDef<ForListSuratResponse>[] = [
   },
   {
     accessorKey: "tanggalTerima",
-    header: ({column}) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tanggal Terima
-          <ArrowUpDownIcon className={"ml-2 h-4 w-4"}/>
-        </Button>
-      )
-    },
+    header: "Tanggal Terima",
     cell: ({row}) => {
       const surat = row.original
       const dateValue = new Date(surat.tanggalTerima)

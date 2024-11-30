@@ -6,13 +6,36 @@ import {CalendarIcon} from "lucide-react";
 import {format} from "date-fns";
 import {cn} from "@/lib/utils.ts";
 import {getSuratByDate} from "@/api/Surat.tsx";
+import {WebResponse} from "@/model/response/WebResponse.tsx";
+import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
+import {useToast} from "@/hooks/use-toast.ts";
 
-function SuratMasukForm() {
-  const [date, setDate] = useState<Date | undefined>(new Date())
+type SuratMasukForm = {
+  setDataHandler: (data: WebResponse<ForListSuratResponse[]>) => void
+}
+
+function SuratMasukForm(
+  {
+    setDataHandler
+  }: SuratMasukForm
+) {
+  const [date, setDate] = useState<Date | undefined>();
+  const {toast} = useToast();
 
   function dateSelectHandler(e: Date | undefined) {
-    setDate(e)
-    getSuratByDate(e)
+    if (e != undefined) {
+      setDate(e)
+      getSuratByDate(e)
+        .then((data) => {
+          setDataHandler(data)
+        })
+        .catch((reason) => {
+          toast({
+            variant: "destructive",
+            description: reason
+          })
+        })
+    }
   }
 
   return (

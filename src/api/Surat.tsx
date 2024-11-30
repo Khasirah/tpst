@@ -1,10 +1,11 @@
 import {API_URL} from "@/config/config.tsx";
-import {getToken} from "@/utils/Helper.tsx";
+import {getToken, tanggalTerimaFormat} from "@/utils/Helper.tsx";
 import {CreateSuratRequest} from "@/model/request/CreateSuratRequest.tsx";
 import {WebResponse} from "@/model/response/WebResponse.tsx";
 import {ForListSuratResponse} from "@/model/response/ForListSuratResponse.tsx";
 import {SuratResponse} from "@/model/response/SuratResponse.tsx";
 import {UpdateSuratRequest} from "@/model/request/UpdateSuratRequest.tsx";
+import {ArchiveSuratsRequest} from "@/model/request/ArchiveSuratsRequest.ts";
 
 export async function createSurat(
   request: CreateSuratRequest,
@@ -184,8 +185,56 @@ export async function downloadBerkas(idSurat: number) {
   return await response.blob();
 }
 
-export async function getSuratByDate(date: Date | undefined) {
-  if (date != undefined) {
-  console.log(date)
+export async function getSuratByDate(
+  date: Date,
+  page?: number,
+  size?: number
+): Promise<WebResponse<ForListSuratResponse[]>> {
+
+  const param = new URLSearchParams({
+    "tanggalTerima": tanggalTerimaFormat(date),
+    "page": page ? page.toString() : "0",
+    "size": size ? size.toString() : "20"
+  })
+
+  const url: string = API_URL + `/api/surat/getSuratByDate?${param}`;
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      "X-API-TOKEN": getToken(),
+    }
   }
+
+  const response = await fetch(url, options)
+  if (!response.ok) {
+    const error: WebResponse<null> = await response.json()
+    throw error.errors
+  }
+
+  return await response.json()
+}
+
+export async function archiveSurat(listIdSurat: number[]) {
+  const request: ArchiveSuratsRequest = {
+    listIdSurat
+  }
+
+  const url: string = API_URL + `/api/surat/archive`;
+  const options: RequestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-TOKEN": getToken(),
+    },
+    body: JSON.stringify(request)
+  }
+
+  const response = await fetch(url, options)
+  if (!response.ok) {
+    const error: WebResponse<null> = await response.json()
+    throw error.errors
+  }
+
+  const data: WebResponse<string> = await response.json();
+  return data;
 }

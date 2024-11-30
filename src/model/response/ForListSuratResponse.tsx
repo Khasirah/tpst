@@ -1,3 +1,5 @@
+import {PosisiSurat} from "@/model/PosisiSurat.tsx";
+
 export type ForListSuratResponse = {
   idSurat: number,
   nomorSurat: string,
@@ -6,4 +8,5 @@ export type ForListSuratResponse = {
   tanggalTerima: string,
   idPetugasTpst: string,
   namaPetugasTpst: string
+  posisiSurat: PosisiSurat
 }
