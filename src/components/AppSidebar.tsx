@@ -5,7 +5,6 @@ import {
   SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from "@/components/ui/sidebar"
 import {
-  ArchiveIcon,
   DashboardIcon,
   EnvelopeClosedIcon,
   InputIcon,
@@ -42,11 +41,6 @@ const items: LinkPage[] = [
     title: "Tanda Terima",
     url: "/tandaTerima",
     icon: ListBulletIcon
-  },
-  {
-    title: "Register Surat",
-    url: "/registerSurat",
-    icon: ArchiveIcon
   },
   {
     title: "Petugas",

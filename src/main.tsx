@@ -12,7 +12,6 @@ import UnprivateRoute from "@/components/UnprivateRoute.tsx";
 import SuratMasuk from "@/pages/SuratMasuk.tsx";
 import InputSurat from "@/pages/InputSurat.tsx";
 import TandaTerima from "@/pages/TandaTerima.tsx";
-import RegisterSurat from "@/pages/RegisterSurat.tsx";
 import Petugas from "@/pages/Petugas.tsx";
 import AddUser from "@/pages/AddUser.tsx";
 import EditUser from "@/pages/EditUser.tsx";
@@ -32,7 +31,6 @@ createRoot(document.getElementById('root')!).render(
               <Route path={"suratMasuk"} element={ <SuratMasuk/> } />
               <Route path={"inputSurat"} element={ <InputSurat/> } />
               <Route path={"tandaTerima"} element={ <TandaTerima/> }/>
-              <Route path={"registerSurat"} element={ <RegisterSurat/> } />
               <Route path={"petugas"} element={ <AdminRoute/> }>
                 <Route index element={ <Petugas/> }/>
                 <Route path={"tambahPetugas"} element={ <AddUser/> } />
