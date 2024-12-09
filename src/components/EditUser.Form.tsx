@@ -122,7 +122,7 @@ function EditUserForm(
       .catch(e => {
         console.log(e)
       })
-  }, [])
+  })
 
   return (
     <Form {...form}>
