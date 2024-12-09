@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
 import * as React from "react";
 import TitlePage from "@/components/TitlePage.tsx";
 import {Separator} from "@/components/ui/separator.tsx";

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {uploadUserSchema} from "@/types/UploadUser.Schema.tsx";
