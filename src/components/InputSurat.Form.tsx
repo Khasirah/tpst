@@ -139,7 +139,7 @@ function InputSuratForm(
                           <CommandGroup>
                             {bidangList.map((bidang) => (
                               <CommandItem
-                                value={bidang.id}
+                                value={bidang.id.toString()}
                                 key={bidang.id}
                                 onSelect={() => {
                                   inputSuratForm.setValue("bidang", bidang.id)
@@ -202,7 +202,7 @@ function InputSuratForm(
                           <CommandGroup>
                             {ekspedisiList.map((ekspedisi) => (
                               <CommandItem
-                                value={ekspedisi.id}
+                                value={ekspedisi.id.toString()}
                                 key={ekspedisi.id}
                                 onSelect={() => {
                                   inputSuratForm.setValue("ekspedisi", ekspedisi.id)

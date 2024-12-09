@@ -3,12 +3,13 @@ import * as v from "pdfmake/build/vfs_fonts"
 import {SuratResponse} from "@/model/response/SuratResponse.tsx";
 import {getDayName} from "@/model/DaysName.tsx";
 import {getMonthName} from "@/model/MonthName.tsx";
+import {TDocumentDefinitions} from "pdfmake/interfaces";
 
 export default async function generateTandaTerima(surat: SuratResponse) {
   const dateNow = new Date()
   const dayName = getDayName(dateNow.getDay())
   const monthName = getMonthName(dateNow.getMonth())
-  const docDefinition = {
+  const docDefinition: TDocumentDefinitions = {
     info: {
       title: "Tanda Terima Surat",
     },

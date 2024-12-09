@@ -203,7 +203,7 @@ function EditUserForm(
                       <CommandGroup>
                         {bagianList.map((bagian) => (
                           <CommandItem
-                            value={bagian.id}
+                            value={bagian.id.toString()}
                             key={bagian.id}
                             onSelect={() => {
                               form.setValue("idBagian", bagian.id.toString())
@@ -270,7 +270,7 @@ function EditUserForm(
                       <CommandGroup>
                         {kelompokList.map((kelompok) => (
                           <CommandItem
-                            value={kelompok.id}
+                            value={kelompok.id.toString()}
                             key={kelompok.id}
                             onSelect={() => {
                               form.setValue("idKelompok", kelompok.id.toString())
