@@ -1,5 +1,4 @@
-import {createPdf} from "pdfmake/build/pdfmake";
-import * as v from "pdfmake/build/vfs_fonts"
+import pdfMake from "pdfmake/build/pdfmake";
 import {SuratResponse} from "@/model/response/SuratResponse.tsx";
 import {getDayName} from "@/model/DaysName.tsx";
 import {getMonthName} from "@/model/MonthName.tsx";
@@ -207,8 +206,16 @@ export default async function generateTandaTerima(surat: SuratResponse) {
     }
   }
 
-  // noinspection TypeScriptValidateTypes
-  return createPdf(
+  pdfMake.fonts = {
+    Roboto: {
+      normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+      bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+      italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+      bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+    },
+  }
+
+  return pdfMake.createPdf(
     docDefinition,
     undefined, {
       Roboto: {
@@ -224,6 +231,5 @@ export default async function generateTandaTerima(surat: SuratResponse) {
         bolditalics: "Courier-BoldOblique",
       },
     },
-    v.pdfMake.vfs
   );
 }
