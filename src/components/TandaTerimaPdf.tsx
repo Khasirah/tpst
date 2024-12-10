@@ -3,6 +3,7 @@ import {SuratResponse} from "@/model/response/SuratResponse.tsx";
 import {getDayName} from "@/model/DaysName.tsx";
 import {getMonthName} from "@/model/MonthName.tsx";
 import {TDocumentDefinitions} from "pdfmake/interfaces";
+import * as pdfFonts from "../utils/fs_fonts.ts";
 
 export default async function generateTandaTerima(surat: SuratResponse) {
   const dateNow = new Date()
@@ -206,14 +207,7 @@ export default async function generateTandaTerima(surat: SuratResponse) {
     }
   }
 
-  pdfMake.fonts = {
-    Roboto: {
-      normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
-      bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-      italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-      bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
-    },
-  }
+  pdfMake.vfs = pdfFonts.default
 
   return pdfMake.createPdf(
     docDefinition,
@@ -224,12 +218,7 @@ export default async function generateTandaTerima(surat: SuratResponse) {
         italics: "Roboto-Italic.ttf",
         bolditalics: "Roboto-MediumItalic.ttf",
       },
-      Courier: {
-        normal: "Courier",
-        bold: "Courier-Bold",
-        italics: "Courier-Oblique",
-        bolditalics: "Courier-BoldOblique",
-      },
     },
+    pdfMake.vfs
   );
 }
